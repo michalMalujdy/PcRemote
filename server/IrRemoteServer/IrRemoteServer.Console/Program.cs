@@ -35,6 +35,25 @@ void Read()
             var value = Convert.ToInt32(valueHex , 16);
 
             Console.WriteLine(value);
+
+            dynamic ws = Microsoft.VisualBasic.Interaction.CreateObject("WScript.Shell", "");
+            if (value == 22)
+            {
+                ws.SendKeys("\u00AD"); // mute or unmute
+            }
+            if (value == 74)
+            {
+                ws.SendKeys("\u00B3"); // start stop
+            }
+            if (value == 27)
+            {
+                ws.SendKeys("\u00AF"); // vol up
+            }
+            if (value == 26)
+            {
+                ws.SendKeys("\u00AE"); // vol down
+            }
+
         }
         catch (TimeoutException) { }
     }
