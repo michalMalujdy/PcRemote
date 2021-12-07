@@ -26,7 +26,7 @@ void loop()
 
 String buildJsonMessage()
 {
-  return "{\"command\":" + String(IrReceiver.decodedIRData.command) + String(",\"isRepeat\":") + boolToString(previousCommand == IrReceiver.decodedIRData.command) + String("}");
+  return "{\"Command\":" + String(IrReceiver.decodedIRData.command) + String(",\"IsRepeat\":") + boolToString(previousCommand == IrReceiver.decodedIRData.command) + String("}");
 }
 
 String boolToString(bool value)

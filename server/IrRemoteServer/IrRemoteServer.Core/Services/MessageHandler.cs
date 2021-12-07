@@ -1,24 +1,19 @@
-﻿namespace IrRemoteServer.Core.Services;
+﻿using System.Text.Json;
+using IrRemoteServer.Core.Models;
+
+namespace IrRemoteServer.Core.Services;
 
 public class MessageHandler
 {
     public void Handle(string message)
     {
-        var properties = message.Split(' ');
+        var messageDeserialized = JsonSerializer.Deserialize<Message>(message);
 
-        if (properties.Contains("Repeat") || properties.Contains("Protocol=UNKNOWN"))
-        {
-            return;
-        }
-
-        var valueHex = properties[2].Substring(8);
-        var value = Convert.ToInt32(valueHex , 16);
-
-        Console.WriteLine(value);
+        Console.WriteLine(messageDeserialized!.Command);
 
         dynamic ws = Microsoft.VisualBasic.Interaction.CreateObject("WScript.Shell", "");
 
-        switch (value)
+        switch (messageDeserialized.Command)
         {
             case 22:
                 ws.SendKeys("\u00AD"); // mute or unmute

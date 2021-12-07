@@ -2,6 +2,6 @@
 
 public class Message
 {
-    public int Value { get; set; }
+    public int Command { get; set; }
     public bool IsRepeat { get; set; }
 }
