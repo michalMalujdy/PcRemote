@@ -1,9 +1,10 @@
 ﻿using System.Text.Json;
+using IrRemoteServer.Core.Abstraction;
 using IrRemoteServer.Core.Models;
 
 namespace IrRemoteServer.Core.Services;
 
-public class MessageHandler
+public class MessageHandler : IMessageHandler
 {
     public void Handle(string message)
     {

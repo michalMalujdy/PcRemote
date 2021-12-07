@@ -1,8 +1,9 @@
 ﻿using System.IO.Ports;
+using IrRemoteServer.Core.Abstraction;
 
 namespace IrRemoteServer.Core.Infrastructure;
 
-public class SerialCommunicationService
+public class SerialCommunicationService : ISerialCommunicationService
 {
     private SerialPort _serialPort = null!;
     private Thread _serialThread = null!;
