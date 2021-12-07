@@ -1,15 +1,12 @@
-﻿using IrRemoteServer.Core.Abstraction;
-using IrRemoteServer.Core.Infrastructure;
-using IrRemoteServer.Core.Services;
+﻿using IrRemoteServer.Core;
+using IrRemoteServer.Core.Abstraction;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((_, services) =>
     {
-        services.AddScoped<IServer, Server>();
-        services.AddScoped<IMessageHandler, MessageHandler>();
-        services.AddScoped<ISerialCommunicationService, SerialCommunicationService>();
+        services.AddCore();
     })
     .Build();
 
