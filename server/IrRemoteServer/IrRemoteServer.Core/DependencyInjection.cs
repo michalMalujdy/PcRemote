@@ -1,5 +1,4 @@
 ﻿using IrRemoteServer.Core.Abstraction;
-using IrRemoteServer.Core.Infrastructure;
 using IrRemoteServer.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +10,6 @@ public static class DependencyInjection
     {
         services.AddScoped<IServer, Server>();
         services.AddScoped<IMessageHandler, MessageHandler>();
-        services.AddScoped<ISerialCommunicationService, SerialCommunicationService>();
 
         return services;
     }

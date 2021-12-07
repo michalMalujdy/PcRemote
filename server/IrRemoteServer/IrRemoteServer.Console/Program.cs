@@ -1,12 +1,14 @@
 ﻿using IrRemoteServer.Core;
 using IrRemoteServer.Core.Abstraction;
+using IrRemoteServer.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using IHost host = Host.CreateDefaultBuilder(args)
+using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((_, services) =>
     {
         services.AddCore();
+        services.AddInfrastructure();
     })
     .Build();
 
