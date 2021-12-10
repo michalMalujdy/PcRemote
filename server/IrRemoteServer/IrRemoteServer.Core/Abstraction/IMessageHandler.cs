@@ -2,5 +2,5 @@
 
 public interface IMessageHandler
 {
-    void Handle(string message);
+    void Handle(string messageRaw);
 }

@@ -1,6 +1,6 @@
 ﻿using IrRemoteServer.Core.Abstraction;
 
-namespace IrRemoteServer.Core.Services;
+namespace IrRemoteServer.Core.Application;
 
 public class Server : IServer
 {
