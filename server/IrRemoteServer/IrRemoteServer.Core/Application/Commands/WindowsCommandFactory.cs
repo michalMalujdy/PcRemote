@@ -14,6 +14,7 @@ public class WindowsCommandFactory : IWindowsCommandFactory
         => remoteValue switch
         {
             74 => _serviceProvider.GetRequiredService<TogglePauseCommand>(),
+            75 => _serviceProvider.GetRequiredService<SpaceCommand>(),
             22 => _serviceProvider.GetRequiredService<ToggleMuteCommand>(),
             27 => _serviceProvider.GetRequiredService<VolumeUpCommand>(),
             26 => _serviceProvider.GetRequiredService<VolumeDownCommand>(),

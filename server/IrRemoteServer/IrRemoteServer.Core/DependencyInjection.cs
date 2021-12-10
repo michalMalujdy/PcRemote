@@ -14,6 +14,7 @@ public static class DependencyInjection
         services.AddSingleton<IWScriptService, WScriptService>();
         services.AddScoped<IWindowsCommandFactory, WindowsCommandFactory>();
         services.AddScoped<TogglePauseCommand>();
+        services.AddScoped<SpaceCommand>();
         services.AddScoped<ToggleMuteCommand>();
         services.AddScoped<VolumeUpCommand>();
         services.AddScoped<VolumeDownCommand>();
