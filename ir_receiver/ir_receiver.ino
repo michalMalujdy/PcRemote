@@ -1,7 +1,6 @@
 #include <IRremote.h>
 
 int IR_RECEIVE_PIN = 11;
-int previousCommand = INT8_MIN;
 
 void setup()
 {
@@ -13,20 +12,24 @@ void setup()
 void loop()
 {
   if (IrReceiver.decode()) {
-    
-    if(IrReceiver.decodedIRData.protocol != UNKNOWN && IrReceiver.decodedIRData.protocol != PULSE_DISTANCE && IrReceiver.decodedIRData.protocol != RC5)
+
+    if (isReadingUnderstandable())
     {
       Serial.println(buildJsonMessage());
     }
     
-    previousCommand = IrReceiver.decodedIRData.command;
     IrReceiver.resume();
   }
 }
 
+bool isReadingUnderstandable()
+{
+  return IrReceiver.decodedIRData.protocol != UNKNOWN && IrReceiver.decodedIRData.protocol != PULSE_DISTANCE && IrReceiver.decodedIRData.protocol != RC5;
+}
+
 String buildJsonMessage()
 {
-  return "{\"Command\":" + String(IrReceiver.decodedIRData.command) + String(",\"IsRepeat\":") + boolToString(previousCommand == IrReceiver.decodedIRData.command) + String("}");
+  return "{\"Command\":" + String(IrReceiver.decodedIRData.command) + String(",\"IsRepeat\":") + boolToString(IrReceiver.decodedIRData.flags & IRDATA_FLAGS_IS_REPEAT) + String("}");
 }
 
 String boolToString(bool value)

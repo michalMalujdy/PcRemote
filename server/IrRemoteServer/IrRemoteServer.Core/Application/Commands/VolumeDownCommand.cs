@@ -9,6 +9,6 @@ public class VolumeDownCommand : ICommand
     public VolumeDownCommand(IWScriptService wScriptService)
         => _wScriptService = wScriptService;
 
-    public void Execute()
+    public void Execute(bool isRepeat)
         => _wScriptService.SendKey("\u00AE");
 }

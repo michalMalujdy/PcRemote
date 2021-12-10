@@ -9,6 +9,11 @@ public class ToggleMuteCommand : ICommand
     public ToggleMuteCommand(IWScriptService wScriptService)
         => _wScriptService = wScriptService;
 
-    public void Execute()
-        => _wScriptService.SendKey("\u00AD");
+    public void Execute(bool isRepeat)
+    {
+        if (!isRepeat)
+        {
+            _wScriptService.SendKey("\u00AD");
+        }
+    }
 }

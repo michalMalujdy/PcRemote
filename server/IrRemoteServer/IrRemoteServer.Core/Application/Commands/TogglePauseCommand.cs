@@ -9,6 +9,11 @@ public class TogglePauseCommand : ICommand
     public TogglePauseCommand(IWScriptService wScriptService)
         => _wScriptService = wScriptService;
 
-    public void Execute()
-        => _wScriptService.SendKey("\u00B3");
+    public void Execute(bool isRepeat)
+    {
+        if (!isRepeat)
+        {
+            _wScriptService.SendKey("\u00B3");
+        }
+    }
 }

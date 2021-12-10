@@ -15,9 +15,7 @@ public class MessageHandler : IMessageHandler
     {
         var message = JsonSerializer.Deserialize<Message>(messageRaw);
 
-        Console.WriteLine(message!.Command);
-
-        var command = _windowsCommandFactory.CreateCommand(message.Command);
-        command.Execute();
+        var command = _windowsCommandFactory.CreateCommand(message!.Command);
+        command.Execute(message.IsRepeat);
     }
 }
