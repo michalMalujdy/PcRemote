@@ -11,7 +11,8 @@ void setup()
 
 void loop()
 {
-  if (IrReceiver.decode()) {
+  if (IrReceiver.decode())
+  {
 
     if (isReadingUnderstandable())
     {

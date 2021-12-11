@@ -16,4 +16,10 @@
       <ProjectReference Include="..\PcRemote.Server.Infrastructure\PcRemote.Server.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
