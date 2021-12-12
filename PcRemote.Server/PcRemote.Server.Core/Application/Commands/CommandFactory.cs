@@ -1,13 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PcRemote.Server.Core.Abstraction;
+using PcRemote.Server.Core.Application.Commands.Mouse;
 
 namespace PcRemote.Server.Core.Application.Commands;
 
-public class WindowsCommandFactory : IWindowsCommandFactory
+public class CommandFactory : ICommandFactory
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public WindowsCommandFactory(IServiceProvider serviceProvider)
+    public CommandFactory(IServiceProvider serviceProvider)
         => _serviceProvider = serviceProvider;
 
     public ICommand CreateCommand(int remoteValue)
@@ -21,6 +22,10 @@ public class WindowsCommandFactory : IWindowsCommandFactory
             71 => _serviceProvider.GetRequiredService<RewindCommand>(),
             70 => _serviceProvider.GetRequiredService<ForwardCommand>(),
             14 => _serviceProvider.GetRequiredService<MoveCursorRightCommand>(),
+            15 => _serviceProvider.GetRequiredService<MoveCursorLeftCommand>(),
+            12 => _serviceProvider.GetRequiredService<MoveCursorUpCommand>(),
+            13 => _serviceProvider.GetRequiredService<MoveCursorDownCommand>(),
+            16 => _serviceProvider.GetRequiredService<LeftMouseClickCommand>(),
             _ => _serviceProvider.GetRequiredService<EmptyCommand>()
         };
 }

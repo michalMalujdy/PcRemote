@@ -9,6 +9,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<ISerialCommunicationService, SerialCommunicationService>();
+        services.AddScoped<IOsInputService, WindowsInputService>();
 
         return services;
     }

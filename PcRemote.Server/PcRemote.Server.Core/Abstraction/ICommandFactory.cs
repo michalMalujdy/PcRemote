@@ -1,6 +1,6 @@
 ﻿namespace PcRemote.Server.Core.Abstraction;
 
-public interface IWindowsCommandFactory
+public interface ICommandFactory
 {
     ICommand CreateCommand(int remoteValue);
 }

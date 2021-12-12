@@ -6,10 +6,10 @@ namespace PcRemote.Server.Core.Application;
 
 public class MessageHandler : IMessageHandler
 {
-    private readonly IWindowsCommandFactory _windowsCommandFactory;
+    private readonly ICommandFactory _commandFactory;
 
-    public MessageHandler(IWindowsCommandFactory windowsCommandFactory)
-        => _windowsCommandFactory = windowsCommandFactory;
+    public MessageHandler(ICommandFactory commandFactory)
+        => _commandFactory = commandFactory;
 
     public void Handle(string messageRaw)
     {
@@ -17,7 +17,7 @@ public class MessageHandler : IMessageHandler
 
         Console.WriteLine(message!.Command);
 
-        var command = _windowsCommandFactory.CreateCommand(message.Command);
+        var command = _commandFactory.CreateCommand(message.Command);
         command.Execute(message.IsRepeat);
     }
 }
