@@ -21,6 +21,7 @@ public static class DependencyInjection
         services.AddScoped<VolumeDownCommand>();
         services.AddScoped<ForwardCommand>();
         services.AddScoped<RewindCommand>();
+        services.AddScoped<MoveCursorRightCommand>();
 
         return services;
     }

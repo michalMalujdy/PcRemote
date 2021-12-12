@@ -20,6 +20,7 @@ public class WindowsCommandFactory : IWindowsCommandFactory
             26 => _serviceProvider.GetRequiredService<VolumeDownCommand>(),
             71 => _serviceProvider.GetRequiredService<RewindCommand>(),
             70 => _serviceProvider.GetRequiredService<ForwardCommand>(),
+            14 => _serviceProvider.GetRequiredService<MoveCursorRightCommand>(),
             _ => _serviceProvider.GetRequiredService<EmptyCommand>()
         };
 }
