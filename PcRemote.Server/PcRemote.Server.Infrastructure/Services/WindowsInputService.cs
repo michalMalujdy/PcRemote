@@ -10,30 +10,30 @@ namespace PcRemote.Server.Infrastructure.Services;
 
 public class WindowsInputService : IOsInputService
 {
-    //https://msdn.microsoft.com/en-us/library/windows/desktop/ms646270(v=vs.85).aspx
     [StructLayout(LayoutKind.Sequential)]
     struct INPUT
     {
-        public int        type; // 0 = INPUT_MOUSE,
-                                // 1 = INPUT_KEYBOARD
-                                // 2 = INPUT_HARDWARE
-        public MOUSEINPUT mi;
+        /// <summary>
+        // 0 = INPUT_MOUSE,
+        // 1 = INPUT_KEYBOARD
+        // 2 = INPUT_HARDWARE
+        /// </summary>
+        public int type;
+
+        public Mouseinput mi;
     }
 
-    //https://msdn.microsoft.com/en-us/library/windows/desktop/ms646273(v=vs.85).aspx
     [StructLayout(LayoutKind.Sequential)]
-    struct MOUSEINPUT
+    struct Mouseinput
     {
-        public int    dx ;
-        public int    dy ;
-        public int    mouseData ;
-        public int    dwFlags;
-        public int    time;
+        public int dx ;
+        public int dy ;
+        public int mouseData ;
+        public int dwFlags;
+        public int time;
         public IntPtr dwExtraInfo;
     }
 
-    //This covers most use cases although complex mice may have additional buttons
-    //There are additional constants you can use for those cases, see the msdn page
     const int MOUSEEVENTF_MOVED      = 0x0001 ;
     const int MOUSEEVENTF_LEFTDOWN   = 0x0002 ;
     const int MOUSEEVENTF_LEFTUP     = 0x0004 ;
@@ -48,28 +48,14 @@ public class WindowsInputService : IOsInputService
 
     const int screen_length = 0x10000 ;
 
-    private const int ScreenWidth = 3440;
-    private const int ScreenHeight = 1440;
+    private const int PositionIncrement = 5;
     private int _speed = 1;
-    private int _acceleration = 2;
+    private int _accelerationIncrement = 4;
     private int _accelerationRepeatsThreshold = 3;
     private int _repeatsCount;
 
     [DllImport("user32.dll")]
     static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
-
-    public void LeftClickAtPoint(int x, int y)
-    {
-        INPUT[] input = new INPUT[3];
-        input[0].mi.dx = x * (65535 / ScreenWidth);
-        input[0].mi.dy = y * (65535 / ScreenHeight);
-        input[0].mi.dwFlags = MOUSEEVENTF_MOVED | MOUSEEVENTF_ABSOLUTE;
-        //Left mouse button down
-        input[1].mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
-        //Left mouse button up
-        input[2].mi.dwFlags = MOUSEEVENTF_LEFTUP;
-        SendInput(3, input, Marshal.SizeOf(input[0]));
-    }
 
     public void LeftMouseClick()
     {
@@ -86,17 +72,17 @@ public class WindowsInputService : IOsInputService
         ComputeSpeed(isRepeat);
 
         var input = new INPUT[1];
-        var incrementDirection = GetIncrementDirection(direction);
-        SetMovement(input, direction, incrementDirection);
+        SetMovement(input, direction);
 
         SendInput((uint)input.Length, input, Marshal.SizeOf(input[0]));
     }
 
-    private void SetMovement(INPUT[] input, CursorDirection direction, int incrementDirection)
+    private void SetMovement(INPUT[] input, CursorDirection direction)
     {
         input[0].mi.dwFlags = MOUSEEVENTF_MOVED;
+        var incrementDirection = GetIncrementDirection(direction);
 
-        var newPosition = incrementDirection * _speed * (65535 / ScreenWidth);
+        var newPosition = incrementDirection * _speed * PositionIncrement;
         if (direction is CursorDirection.Down or CursorDirection.Up)
         {
             input[0].mi.dy = newPosition;
@@ -125,7 +111,7 @@ public class WindowsInputService : IOsInputService
 
             if (_accelerationRepeatsThreshold == _repeatsCount)
             {
-                _speed += _acceleration;
+                _speed += _accelerationIncrement;
                 _repeatsCount = 0;
             }
         }
