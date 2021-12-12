@@ -3,6 +3,11 @@ using PcRemote.Server.Core.Abstraction;
 
 namespace PcRemote.Server.Infrastructure.Services;
 
+/// <summary>
+/// Input are based on the Wind32 API - https://docs.microsoft.com/en-us/windows/win32/api/winuser/
+/// Keystrokes and mouse inputs are based on the SendInput() - https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendinput
+/// </summary>
+
 public class WindowsInputService : IOsInputService
 {
     //https://msdn.microsoft.com/en-us/library/windows/desktop/ms646270(v=vs.85).aspx
@@ -45,8 +50,11 @@ public class WindowsInputService : IOsInputService
 
     private const int ScreenWidth = 3440;
     private const int ScreenHeight = 1440;
+    private int _speed = 1;
+    private int _acceleration = 2;
+    private int _accelerationRepeatsThreshold = 3;
+    private int _repeatsCount;
 
-    //https://msdn.microsoft.com/en-us/library/windows/desktop/ms646310(v=vs.85).aspx
     [DllImport("user32.dll")]
     static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
 
@@ -73,47 +81,62 @@ public class WindowsInputService : IOsInputService
         SendInput((uint)input.Length, input, Marshal.SizeOf(input[0]));
     }
 
+    public void MoveCursor(CursorDirection direction, bool isRepeat)
+    {
+        ComputeSpeed(isRepeat);
+
+        var input = new INPUT[1];
+        var incrementDirection = GetIncrementDirection(direction);
+        SetMovement(input, direction, incrementDirection);
+
+        SendInput((uint)input.Length, input, Marshal.SizeOf(input[0]));
+    }
+
+    private void SetMovement(INPUT[] input, CursorDirection direction, int incrementDirection)
+    {
+        input[0].mi.dwFlags = MOUSEEVENTF_MOVED;
+
+        var newPosition = incrementDirection * _speed * (65535 / ScreenWidth);
+        if (direction is CursorDirection.Down or CursorDirection.Up)
+        {
+            input[0].mi.dy = newPosition;
+        }
+        if (direction is CursorDirection.Left or CursorDirection.Right)
+        {
+            input[0].mi.dx = newPosition;
+        }
+    }
+
+    private static int GetIncrementDirection(CursorDirection direction)
+        => direction switch
+        {
+            CursorDirection.Right => 1,
+            CursorDirection.Down => 1,
+            CursorDirection.Left => -1,
+            CursorDirection.Up => -1,
+            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+        };
+
+    private void ComputeSpeed(bool isRepeat)
+    {
+        if (isRepeat)
+        {
+            _repeatsCount++;
+
+            if (_accelerationRepeatsThreshold == _repeatsCount)
+            {
+                _speed += _acceleration;
+                _repeatsCount = 0;
+            }
+        }
+        else
+        {
+            _repeatsCount = 0;
+            _speed = 1;
+        }
+    }
+
     public void RightMouseClick()
     {
-    }
-
-    public void MoveCursorRight()
-    {
-        var input = new INPUT[1];
-
-        input[0].mi.dx = 1 * (65535 / ScreenWidth);
-        input[0].mi.dwFlags = MOUSEEVENTF_MOVED;
-
-        SendInput((uint)input.Length, input, Marshal.SizeOf(input[0]));
-    }
-
-    public void MoveCursorLeft()
-    {
-        var input = new INPUT[1];
-
-        input[0].mi.dx = -1 * (65535 / ScreenWidth);
-        input[0].mi.dwFlags = MOUSEEVENTF_MOVED;
-
-        SendInput((uint)input.Length, input, Marshal.SizeOf(input[0]));
-    }
-
-    public void MoveCursorUp()
-    {
-        var input = new INPUT[1];
-
-        input[0].mi.dy = -1 * (65535 / ScreenWidth);
-        input[0].mi.dwFlags = MOUSEEVENTF_MOVED;
-
-        SendInput((uint)input.Length, input, Marshal.SizeOf(input[0]));
-    }
-
-    public void MoveCursorDown()
-    {
-        var input = new INPUT[1];
-
-        input[0].mi.dy = 1 * (65535 / ScreenWidth);
-        input[0].mi.dwFlags = MOUSEEVENTF_MOVED;
-
-        SendInput((uint)input.Length, input, Marshal.SizeOf(input[0]));
     }
 }

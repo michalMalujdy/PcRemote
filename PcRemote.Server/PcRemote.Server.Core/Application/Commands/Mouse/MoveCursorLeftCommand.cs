@@ -11,6 +11,6 @@ public class MoveCursorLeftCommand : ICommand
 
     public void Execute(bool isRepeat)
     {
-        _osInputService.MoveCursorLeft();
+        _osInputService.MoveCursor(CursorDirection.Left, isRepeat);
     }
 }

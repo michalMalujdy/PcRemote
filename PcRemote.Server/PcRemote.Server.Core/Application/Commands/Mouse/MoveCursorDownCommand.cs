@@ -11,6 +11,6 @@ public class MoveCursorDownCommand : ICommand
 
     public void Execute(bool isRepeat)
     {
-        _osInputService.MoveCursorDown();
+        _osInputService.MoveCursor(CursorDirection.Down, isRepeat);
     }
 }

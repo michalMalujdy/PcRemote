@@ -11,6 +11,6 @@ public class MoveCursorUpCommand : ICommand
 
     public void Execute(bool isRepeat)
     {
-        _osInputService.MoveCursorUp();
+        _osInputService.MoveCursor(CursorDirection.Up, isRepeat);
     }
 }
