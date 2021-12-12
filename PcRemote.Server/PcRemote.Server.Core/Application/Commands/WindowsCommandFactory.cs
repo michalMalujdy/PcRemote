@@ -18,6 +18,8 @@ public class WindowsCommandFactory : IWindowsCommandFactory
             22 => _serviceProvider.GetRequiredService<ToggleMuteCommand>(),
             27 => _serviceProvider.GetRequiredService<VolumeUpCommand>(),
             26 => _serviceProvider.GetRequiredService<VolumeDownCommand>(),
+            71 => _serviceProvider.GetRequiredService<RewindCommand>(),
+            70 => _serviceProvider.GetRequiredService<ForwardCommand>(),
             _ => _serviceProvider.GetRequiredService<EmptyCommand>()
         };
 }

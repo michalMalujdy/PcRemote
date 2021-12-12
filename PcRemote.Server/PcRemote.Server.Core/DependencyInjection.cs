@@ -19,6 +19,8 @@ public static class DependencyInjection
         services.AddScoped<ToggleMuteCommand>();
         services.AddScoped<VolumeUpCommand>();
         services.AddScoped<VolumeDownCommand>();
+        services.AddScoped<ForwardCommand>();
+        services.AddScoped<RewindCommand>();
 
         return services;
     }
