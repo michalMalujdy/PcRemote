@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PcRemote.Server.Core.Abstraction;
 using PcRemote.Server.Infrastructure.Services;
+using PcRemote.Server.Infrastructure.Services.Windows;
 
 namespace PcRemote.Server.Infrastructure;
 
