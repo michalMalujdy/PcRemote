@@ -9,13 +9,12 @@ namespace PcRemote.Server.Infrastructure.Services.Windows;
 /// </summary>
 public class WindowsInputService : IOsInputService
 {
-
     [DllImport("user32.dll")]
     static extern uint SendInput(uint nInputs, WindowsInput[] pInputs, int cbSize);
 
     private const int PositionIncrement = 5;
     private const int AccelerationIncrement = 4;
-    public const int AccelerationRepeatsThreshold = 3;
+    private const int AccelerationRepeatsThreshold = 3;
     private int _speed = 1;
     private int _repeatsCount;
 

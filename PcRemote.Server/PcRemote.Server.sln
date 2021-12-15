@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PcRemote.Server.Core", "PcR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PcRemote.Server.Infrastructure", "PcRemote.Server.Infrastructure\PcRemote.Server.Infrastructure.csproj", "{7A43AE61-4CCB-4BA1-894E-2D71ADAE7A49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PcRemote.Server.Tests", "PcRemote.Server.Tests\PcRemote.Server.Tests.csproj", "{4EB6022F-7221-4371-8959-5BDA3E6BDF0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{7A43AE61-4CCB-4BA1-894E-2D71ADAE7A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A43AE61-4CCB-4BA1-894E-2D71ADAE7A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A43AE61-4CCB-4BA1-894E-2D71ADAE7A49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EB6022F-7221-4371-8959-5BDA3E6BDF0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EB6022F-7221-4371-8959-5BDA3E6BDF0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EB6022F-7221-4371-8959-5BDA3E6BDF0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EB6022F-7221-4371-8959-5BDA3E6BDF0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
