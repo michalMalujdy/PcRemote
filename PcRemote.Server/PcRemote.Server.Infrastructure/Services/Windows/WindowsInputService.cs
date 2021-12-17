@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using PcRemote.Server.Core.Abstraction;
+using ProcessStartInfo = System.Diagnostics.ProcessStartInfo;
 
 namespace PcRemote.Server.Infrastructure.Services.Windows;
 
@@ -36,6 +37,18 @@ public class WindowsInputService : IOsInputService
         SetMovement(input, direction);
 
         SendInput((uint)input.Length, input, Marshal.SizeOf(input[0]));
+    }
+
+    public void ShutDown(TimeSpan delay)
+    {
+        var cliCommand = "shutdown -s";
+
+        if (delay != TimeSpan.Zero)
+        {
+            cliCommand += $" -t {delay.TotalSeconds}";
+        }
+
+        RunInCmd(cliCommand);
     }
 
     private void SetMovement(WindowsInput[] input, CursorDirection direction)
@@ -85,5 +98,16 @@ public class WindowsInputService : IOsInputService
 
     public void RightMouseClick()
     {
+    }
+
+    private void RunInCmd(string command)
+    {
+        var processInfo = new ProcessStartInfo("cmd.exe", "/K " + command)
+        {
+            CreateNoWindow = false,
+            UseShellExecute = false
+        };
+
+        System.Diagnostics.Process.Start(processInfo);
     }
 }

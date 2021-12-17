@@ -11,6 +11,9 @@ public class LeftMouseClickCommand : ICommand
 
     public void Execute(bool isRepeat)
     {
-        _osInputService.LeftMouseClick();
+        if (!isRepeat)
+        {
+            _osInputService.LeftMouseClick();
+        }
     }
 }
