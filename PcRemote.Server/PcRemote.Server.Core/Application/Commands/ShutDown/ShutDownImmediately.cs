@@ -6,5 +6,5 @@ public class ShutDownImmediately : ShutdownCommandBase
 {
     protected override TimeSpan Delay => TimeSpan.Zero;
 
-    public ShutDownImmediately(IOsInputService osInputService) : base(osInputService) { }
+    public ShutDownImmediately(IOsService osService) : base(osService) { }
 }

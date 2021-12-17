@@ -4,13 +4,13 @@ namespace PcRemote.Server.Core.Application.Commands.Mouse;
 
 public class MoveCursorUpCommand : ICommand
 {
-    private readonly IOsInputService _osInputService;
+    private readonly IOsService _osService;
 
-    public MoveCursorUpCommand(IOsInputService osInputService)
-        => _osInputService = osInputService;
+    public MoveCursorUpCommand(IOsService osService)
+        => _osService = osService;
 
     public void Execute(bool isRepeat)
     {
-        _osInputService.MoveCursor(CursorDirection.Up, isRepeat);
+        _osService.Input.MoveCursor(CursorDirection.Up, isRepeat);
     }
 }

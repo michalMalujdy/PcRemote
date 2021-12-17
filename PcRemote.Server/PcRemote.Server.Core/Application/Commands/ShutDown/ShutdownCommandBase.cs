@@ -6,11 +6,11 @@ public abstract class ShutdownCommandBase : ICommand
 {
     protected abstract TimeSpan Delay { get; }
 
-    private readonly IOsInputService _osInputService;
+    private readonly IOsService _osService;
 
-    public ShutdownCommandBase(IOsInputService osInputService)
-        => _osInputService = osInputService;
+    public ShutdownCommandBase(IOsService osService)
+        => _osService = osService;
 
     public void Execute(bool isRepeat)
-        => _osInputService.ShutDown(Delay);
+        => _osService.ShutDown(Delay);
 }

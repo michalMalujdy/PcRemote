@@ -6,5 +6,5 @@ public class ShutDownIn1Hour : ShutdownCommandBase
 {
     protected override TimeSpan Delay => TimeSpan.FromHours(1);
 
-    public ShutDownIn1Hour(IOsInputService osInputService) : base(osInputService) { }
+    public ShutDownIn1Hour(IOsService osService) : base(osService) { }
 }

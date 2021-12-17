@@ -4,16 +4,16 @@ namespace PcRemote.Server.Core.Application.Commands.Mouse;
 
 public class LeftMouseClickCommand : ICommand
 {
-    private IOsInputService _osInputService;
+    private IOsService _osService;
 
-    public LeftMouseClickCommand(IOsInputService osInputService)
-        => _osInputService = osInputService;
+    public LeftMouseClickCommand(IOsService osService)
+        => _osService = osService;
 
     public void Execute(bool isRepeat)
     {
         if (!isRepeat)
         {
-            _osInputService.LeftMouseClick();
+            _osService.Input.LeftMouseClick();
         }
     }
 }
