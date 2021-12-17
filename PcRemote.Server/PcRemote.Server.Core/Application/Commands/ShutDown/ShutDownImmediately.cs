@@ -2,13 +2,9 @@
 
 namespace PcRemote.Server.Core.Application.Commands.ShutDown;
 
-public class ShutDownImmediately : ICommand
+public class ShutDownImmediately : ShutdownCommandBase
 {
-    private readonly IOsInputService _osInputService;
+    protected override TimeSpan Delay => TimeSpan.Zero;
 
-    public ShutDownImmediately(IOsInputService osInputService)
-        => _osInputService = osInputService;
-
-    public void Execute(bool isRepeat)
-        => _osInputService.ShutDown(TimeSpan.Zero);
+    public ShutDownImmediately(IOsInputService osInputService) : base(osInputService) { }
 }

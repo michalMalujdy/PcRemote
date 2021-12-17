@@ -2,13 +2,9 @@
 
 namespace PcRemote.Server.Core.Application.Commands.ShutDown;
 
-public class ShutDownIn1Hour : ICommand
+public class ShutDownIn1Hour : ShutdownCommandBase
 {
-    private readonly IOsInputService _osInputService;
+    protected override TimeSpan Delay => TimeSpan.FromHours(1);
 
-    public ShutDownIn1Hour(IOsInputService osInputService)
-        => _osInputService = osInputService;
-
-    public void Execute(bool isRepeat)
-        => _osInputService.ShutDown(TimeSpan.FromHours(1));
+    public ShutDownIn1Hour(IOsInputService osInputService) : base(osInputService) { }
 }
