@@ -1,24 +1,15 @@
-﻿using System.Runtime.InteropServices;
-using PcRemote.Server.Core.Abstraction;
+﻿using PcRemote.Server.Core.Abstraction;
 using PcRemote.Server.Core.Models;
 using PcRemote.Server.Infrastructure.Abstraction.Windows;
 using WindowsInput;
-using WindowsInput.Native;
 
 namespace PcRemote.Server.Infrastructure.Services.Windows;
 
-/// <summary>
-/// Input are based on the Wind32 API - https://docs.microsoft.com/en-us/windows/win32/api/winuser/
-/// Keystrokes and mouse inputs are based on the SendInput() - https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendinput
-/// </summary>
 public class WindowsInputService : IOsInputService
 {
-    [DllImport("user32.dll")]
-    static extern uint SendInput(uint nInputs, WindowsInput[] pInputs, int cbSize);
-
-    private const int PositionIncrement = 5;
-    private const int AccelerationIncrement = 4;
+    private const int AccelerationIncrement = 5;
     private const int AccelerationRepeatsThreshold = 3;
+
     private int _speed = 1;
     private int _repeatsCount;
 
@@ -32,50 +23,37 @@ public class WindowsInputService : IOsInputService
     }
 
     public void LeftMouseClick()
-    {
-        var input = new WindowsInput[2];
+        => _inputSimulator.Mouse.LeftButtonClick();
 
-        input[0].mi.dwFlags = MouseEventType.MOUSEEVENTF_LEFTDOWN;
-        input[1].mi.dwFlags = MouseEventType.MOUSEEVENTF_LEFTUP;
-
-        SendInput((uint)input.Length, input, Marshal.SizeOf(input[0]));
-    }
+    public void RightMouseClick()
+        => _inputSimulator.Mouse.RightButtonClick();
 
     public void MoveCursor(CursorDirection direction, bool isRepeat)
     {
         ComputeSpeed(isRepeat);
 
-        var input = new WindowsInput[1];
-        SetMovement(input, direction);
-
-        SendInput((uint)input.Length, input, Marshal.SizeOf(input[0]));
-    }
-
-    private void SetMovement(WindowsInput[] input, CursorDirection direction)
-    {
-        input[0].mi.dwFlags = MouseEventType.MOUSEEVENTF_MOVED;
-        var incrementDirection = GetIncrementDirection(direction);
-
-        var newPosition = incrementDirection * _speed * PositionIncrement;
-        if (direction is CursorDirection.Down or CursorDirection.Up)
+        var dx = direction switch
         {
-            input[0].mi.dy = newPosition;
-        }
-        if (direction is CursorDirection.Left or CursorDirection.Right)
-        {
-            input[0].mi.dx = newPosition;
-        }
-    }
-
-    private static int GetIncrementDirection(CursorDirection direction)
-        => direction switch
-        {
-            CursorDirection.Right => 1,
-            CursorDirection.Down => 1,
-            CursorDirection.Left => -1,
-            CursorDirection.Up => -1,
-            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+            CursorDirection.Right => _speed,
+            CursorDirection.Left => -_speed,
+            _ => 0
         };
+
+        var dy = direction switch
+        {
+            CursorDirection.Down => _speed,
+            CursorDirection.Up => -_speed,
+            _ => 0
+        };
+
+        _inputSimulator.Mouse.MoveMouseBy(dx, dy);
+    }
+
+    public void KeyStroke(Key key)
+    {
+        var windowsKey = _keyProvider.GetWindowsKey(key);
+        _inputSimulator.Keyboard.KeyPress(windowsKey);
+    }
 
     private void ComputeSpeed(bool isRepeat)
     {
@@ -94,15 +72,5 @@ public class WindowsInputService : IOsInputService
             _repeatsCount = 0;
             _speed = 1;
         }
-    }
-
-    public void RightMouseClick()
-    {
-    }
-
-    public void KeyStroke(Key key)
-    {
-        var windowsKey = _keyProvider.GetWindowsKey(key);
-        _inputSimulator.Keyboard.KeyPress(windowsKey);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PcRemote.Server.Core.Abstraction;
+using PcRemote.Server.Core.Application.Commands.Keyboard;
 using PcRemote.Server.Core.Application.Commands.Mouse;
 using PcRemote.Server.Core.Application.Commands.ShutDown;
 

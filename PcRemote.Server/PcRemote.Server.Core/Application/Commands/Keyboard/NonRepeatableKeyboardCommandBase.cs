@@ -1,7 +1,7 @@
 ﻿using PcRemote.Server.Core.Abstraction;
 using PcRemote.Server.Core.Models;
 
-namespace PcRemote.Server.Core.Application.Commands;
+namespace PcRemote.Server.Core.Application.Commands.Keyboard;
 
 public abstract class NonRepeatableKeyboardCommandBase : ICommand
 {

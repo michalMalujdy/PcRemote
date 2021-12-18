@@ -10,8 +10,6 @@ public class WindowsService : IOsService
     public WindowsService(IOsInputService osInputService)
         => Input = osInputService;
 
-
-
     public void ShutDown(TimeSpan delay)
     {
         var cliCommand = "shutdown -s";
