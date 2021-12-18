@@ -30,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<MoveCursorUpCommand>();
         services.AddScoped<MoveCursorDownCommand>();
         services.AddScoped<LeftMouseClickCommand>();
+        services.AddScoped<RightMouseClickCommand>();
         services.AddScoped<ShutDownImmediately>();
         services.AddScoped<ShutDownIn10Minutes>();
         services.AddScoped<ShutDownIn1Hour>();

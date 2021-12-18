@@ -35,6 +35,7 @@ public class CommandFactory : ICommandFactory
             (12, _, _) => _serviceProvider.GetRequiredService<MoveCursorUpCommand>(),
             (13, _, _) => _serviceProvider.GetRequiredService<MoveCursorDownCommand>(),
             (16, _, _) => _serviceProvider.GetRequiredService<LeftMouseClickCommand>(),
+            (17, _, _) => _serviceProvider.GetRequiredService<RightMouseClickCommand>(),
             (21, 0, 21) => _serviceProvider.GetRequiredService<ShutDownImmediately>(),
             (21, 1, 21) => _serviceProvider.GetRequiredService<ShutDownIn10Minutes>(),
             (21, 2, 21) => _serviceProvider.GetRequiredService<ShutDownIn1Hour>(),
