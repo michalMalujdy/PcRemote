@@ -23,6 +23,9 @@
       <None Update="M-MALUJDY-PC.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="appsettings.LPT-MIMA.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

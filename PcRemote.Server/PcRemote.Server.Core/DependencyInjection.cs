@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using PcRemote.Server.Core.Abstraction;
 using PcRemote.Server.Core.Application;
 using PcRemote.Server.Core.Application.Commands;
@@ -9,7 +10,7 @@ namespace PcRemote.Server.Core;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddCore(this IServiceCollection services)
+    public static IServiceCollection AddCore(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IServer, Application.Server>();
         services.AddScoped<IMessageHandler, MessageHandler>();
@@ -32,6 +33,10 @@ public static class DependencyInjection
         services.AddScoped<ShutDownIn10Minutes>();
         services.AddScoped<ShutDownIn1Hour>();
         services.AddScoped<ShutDownIn2Hours>();
+
+        var coreConfig = new Configuration();
+        configuration.Bind(coreConfig);
+        services.AddSingleton(coreConfig);
 
         return services;
     }

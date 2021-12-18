@@ -5,33 +5,28 @@ using PcRemote.Server.Core;
 using PcRemote.Server.Core.Abstraction;
 using PcRemote.Server.Infrastructure;
 
+var configuration = BuildConfiguration();
+
 using var host = Host.CreateDefaultBuilder(args)
-    .ConfigureAppConfiguration(SetupAppsettings)
     .ConfigureServices(SetupServices)
     .Build();
 
-RunServerInScope(host.Services);
-
+var server = host.Services.GetRequiredService<IServer>();
+server.Start();
 await host.RunAsync();
+server.Stop();
 
-void SetupAppsettings(IConfigurationBuilder configurationBuilder)
-{
-    configurationBuilder
+IConfiguration BuildConfiguration()
+    => new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", true, true)
         .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", true, true)
         .AddJsonFile($"appsettings.{Environment.MachineName}.json", true, true)
-        .AddEnvironmentVariables();
-}
+        .AddEnvironmentVariables()
+        .Build();
 
-void SetupServices(HostBuilderContext context, IServiceCollection serviceCollection)
+void SetupServices(HostBuilderContext context, IServiceCollection services)
 {
-    serviceCollection.AddCore();
-    serviceCollection.AddInfrastructure();
-}
-
-void RunServerInScope(IServiceProvider serviceProvider)
-{
-    var server = serviceProvider.GetRequiredService<IServer>();
-    server.Start();
+    services.AddCore(configuration);
+    services.AddInfrastructure();
 }
