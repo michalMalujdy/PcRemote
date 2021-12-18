@@ -1,5 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using PcRemote.Server.Core.Abstraction;
+using PcRemote.Server.Core.Models;
+using PcRemote.Server.Infrastructure.Abstraction.Windows;
+using WindowsInput;
+using WindowsInput.Native;
 
 namespace PcRemote.Server.Infrastructure.Services.Windows;
 
@@ -17,6 +21,15 @@ public class WindowsInputService : IOsInputService
     private const int AccelerationRepeatsThreshold = 3;
     private int _speed = 1;
     private int _repeatsCount;
+
+    private readonly IInputSimulator _inputSimulator;
+    private readonly IWindowsKeyProvider _keyProvider;
+
+    public WindowsInputService(IInputSimulator inputSimulator, IWindowsKeyProvider keyProvider)
+    {
+        _inputSimulator = inputSimulator;
+        _keyProvider = keyProvider;
+    }
 
     public void LeftMouseClick()
     {
@@ -85,5 +98,11 @@ public class WindowsInputService : IOsInputService
 
     public void RightMouseClick()
     {
+    }
+
+    public void KeyStroke(Key key)
+    {
+        var windowsKey = _keyProvider.GetWindowsKey(key);
+        _inputSimulator.Keyboard.KeyPress(windowsKey);
     }
 }

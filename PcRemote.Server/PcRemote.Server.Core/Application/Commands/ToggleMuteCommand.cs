@@ -1,19 +1,11 @@
 ﻿using PcRemote.Server.Core.Abstraction;
+using PcRemote.Server.Core.Models;
 
 namespace PcRemote.Server.Core.Application.Commands;
 
-public class ToggleMuteCommand : ICommand
+public class ToggleMuteCommand : NonRepeatableKeyboardCommandBase
 {
-    private readonly IWScriptService _wScriptService;
+    protected override Key Key => Key.VolumeMute;
 
-    public ToggleMuteCommand(IWScriptService wScriptService)
-        => _wScriptService = wScriptService;
-
-    public void Execute(bool isRepeat)
-    {
-        if (!isRepeat)
-        {
-            _wScriptService.SendKey("\u00AD");
-        }
-    }
+    public ToggleMuteCommand(IOsService osService) : base(osService) { }
 }

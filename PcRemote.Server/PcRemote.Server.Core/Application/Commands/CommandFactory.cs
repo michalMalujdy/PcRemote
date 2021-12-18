@@ -28,7 +28,7 @@ public class CommandFactory : ICommandFactory
             (27, _, _) => _serviceProvider.GetRequiredService<VolumeUpCommand>(),
             (26, _, _) => _serviceProvider.GetRequiredService<VolumeDownCommand>(),
             (71, _, _) => _serviceProvider.GetRequiredService<RewindCommand>(),
-            (70, _, _) => _serviceProvider.GetRequiredService<ForwardCommand>(),
+            (70, _, _) => _serviceProvider.GetRequiredService<ForwardCommandBase>(),
             (14, _, _) => _serviceProvider.GetRequiredService<MoveCursorRightCommand>(),
             (15, _, _) => _serviceProvider.GetRequiredService<MoveCursorLeftCommand>(),
             (12, _, _) => _serviceProvider.GetRequiredService<MoveCursorUpCommand>(),

@@ -1,19 +1,11 @@
 ﻿using PcRemote.Server.Core.Abstraction;
+using PcRemote.Server.Core.Models;
 
 namespace PcRemote.Server.Core.Application.Commands;
 
-public class RewindCommand : ICommand
+public class RewindCommand : NonRepeatableKeyboardCommandBase
 {
-    private readonly IWScriptService _wScriptService;
+    protected override Key Key => Key.ArrowLeft;
 
-    public RewindCommand(IWScriptService wScriptService)
-        => _wScriptService = wScriptService;
-
-    public void Execute(bool isRepeat)
-    {
-        if (!isRepeat)
-        {
-            _wScriptService.SendKey("{LEFT}");
-        }
-    }
+    public RewindCommand(IOsService osService) : base(osService) { }
 }

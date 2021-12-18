@@ -1,19 +1,11 @@
 ﻿using PcRemote.Server.Core.Abstraction;
+using PcRemote.Server.Core.Models;
 
 namespace PcRemote.Server.Core.Application.Commands;
 
-public class SpaceCommand : ICommand
+public class SpaceCommand : NonRepeatableKeyboardCommandBase
 {
-    private readonly IWScriptService _wScriptService;
+    protected override Key Key => Key.Space;
 
-    public SpaceCommand(IWScriptService wScriptService)
-        => _wScriptService = wScriptService;
-
-    public void Execute(bool isRepeat)
-    {
-        if (!isRepeat)
-        {
-            _wScriptService.SendKey("\u0020");
-        }
-    }
+    public SpaceCommand(IOsService osService) : base(osService) { }
 }

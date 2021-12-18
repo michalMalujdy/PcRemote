@@ -1,6 +1,6 @@
 ﻿using PcRemote.Server.Core.Abstraction;
 
-namespace PcRemote.Server.Core.Application.Commands;
+namespace PcRemote.Server.Core.Application;
 
 public class SequenceService : ISequenceService
 {

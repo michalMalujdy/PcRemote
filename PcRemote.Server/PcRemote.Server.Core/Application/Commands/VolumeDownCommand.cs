@@ -1,14 +1,11 @@
 ﻿using PcRemote.Server.Core.Abstraction;
+using PcRemote.Server.Core.Models;
 
 namespace PcRemote.Server.Core.Application.Commands;
 
-public class VolumeDownCommand : ICommand
+public class VolumeDownCommand : RepeatableKeyboardCommandBase
 {
-    private readonly IWScriptService _wScriptService;
+    protected override Key Key => Key.VolumeDown;
 
-    public VolumeDownCommand(IWScriptService wScriptService)
-        => _wScriptService = wScriptService;
-
-    public void Execute(bool isRepeat)
-        => _wScriptService.SendKey("\u00AE");
+    public VolumeDownCommand(IOsService osService) : base(osService) { }
 }

@@ -14,7 +14,6 @@ public static class DependencyInjection
         services.AddScoped<IServer, Application.Server>();
         services.AddScoped<IMessageHandler, MessageHandler>();
         services.AddScoped<ISequenceService, SequenceService>();
-        services.AddSingleton<IWScriptService, WScriptService>();
         services.AddScoped<ICommandFactory, CommandFactory>();
         services.AddScoped<EmptyCommand>();
         services.AddScoped<TogglePauseCommand>();
@@ -22,7 +21,7 @@ public static class DependencyInjection
         services.AddScoped<ToggleMuteCommand>();
         services.AddScoped<VolumeUpCommand>();
         services.AddScoped<VolumeDownCommand>();
-        services.AddScoped<ForwardCommand>();
+        services.AddScoped<ForwardCommandBase>();
         services.AddScoped<RewindCommand>();
         services.AddScoped<MoveCursorRightCommand>();
         services.AddScoped<MoveCursorLeftCommand>();

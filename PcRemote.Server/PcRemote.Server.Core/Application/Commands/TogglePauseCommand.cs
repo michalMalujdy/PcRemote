@@ -1,19 +1,11 @@
 ﻿using PcRemote.Server.Core.Abstraction;
+using PcRemote.Server.Core.Models;
 
 namespace PcRemote.Server.Core.Application.Commands;
 
-public class TogglePauseCommand : ICommand
+public class TogglePauseCommand : NonRepeatableKeyboardCommandBase
 {
-    private readonly IWScriptService _wScriptService;
+    protected override Key Key => Key.TogglePause;
 
-    public TogglePauseCommand(IWScriptService wScriptService)
-        => _wScriptService = wScriptService;
-
-    public void Execute(bool isRepeat)
-    {
-        if (!isRepeat)
-        {
-            _wScriptService.SendKey("\u00B3");
-        }
-    }
+    public TogglePauseCommand(IOsService osService) : base(osService) { }
 }

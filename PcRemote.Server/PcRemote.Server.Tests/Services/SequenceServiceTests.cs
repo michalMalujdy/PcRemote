@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PcRemote.Server.Core.Application;
 using PcRemote.Server.Core.Application.Commands;
 
 namespace PcRemote.Server.Tests.Services;
